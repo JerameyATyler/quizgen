@@ -1,0 +1,123 @@
+\documentclass{article}
+\title{XML Schema for RPI CS1 quiz generator}
+\author{Jeramey Tyler}
+\date{June 2017}
+\begin{document}
+	\maketitle
+	
+	\begin{abstract}
+	This document outlines the XML schema required by the quiz generator. In order to ensure that the quiz generator correctly generates a quiz strict adherence to this schema is required. 
+	\end{abstract}
+	\section{Introduction}
+	The XML structure for the quiz generator is designed so that a quiz contains question which are composed of text and response elements. The quiz generator is able to handle an arbitrary number of questions and each question may contain an arbitrary number text and responses. 
+	\section{Structure}
+	The basic structure of the XML schema is outlined below:\vspace{1ex}\\
+	{\textless}?xml version=``1.0"?{\textgreater}\\	
+	{\textless}quiz quiznum=``1"{\textgreater}\\	
+	\phantom{3em}{\textless}question{\textgreater}\\	
+	\phantom{3em}\phantom{3em}{\textless}text texttype=``text{\textgreater}\\
+	\phantom{3em}\phantom{3em}\phantom{3em}Given the following problem and implementation which types of\\
+	\phantom{3em}\phantom{3em}\phantom{3em}errors are present:\\
+	\phantom{3em}\phantom{3em}{\textless}/text{\textgreater}\\	
+	\phantom{3em}\phantom{3em}{\textless}text texttype=``formula"{\textgreater}\\
+	\phantom{3em}\phantom{3em}\phantom{3em}Solve for c: \$\$a{\textasciicircum}2 + b{\textasciicircum}2 = c{\textasciicircum}2\$\$\\
+	\phantom{3em}\phantom{3em}{\textless}/text{\textgreater}\\	
+	\phantom{3em}\phantom{3em}{\textless}text texttype=``code" startline=``0"{\textgreater}\\	
+	\phantom{3em}\phantom{3em}\phantom{3em}{\textless}code{\textgreater}import math{\textless}/code{\textgreater}\\	
+	\phantom{3em}\phantom{3em}\phantom{3em}{\textless}code{\textgreater}c == math.sqrt(pow(a, a) + b*b){\textless}/code{\textgreater}\\
+	\phantom{3em}\phantom{3em}{\textless}/text{\textgreater}\\
+	\phantom{3em}\phantom{3em}{\textless}response texttype=``text" correct=``incorrect"{\textgreater}Semantic{\textless}/response{\textgreater}\\	
+	\phantom{3em}\phantom{3em}{\textless}response texttype=``text" correct=``incorrect"{\textgreater}Syntactic{\textless}/response{\textgreater}\\
+	\phantom{3em}\phantom{3em}{\textless}response texttype=``text" correct=``correct"{\textgreater}\\
+	\phantom{3em}\phantom{3em}\phantom{3em}Semantic and Syntactic\\
+	\phantom{3em}\phantom{3em}{\textless}/response{\textgreater}\\
+	\phantom{3em}\phantom{3em}{\textless}response texttype=``text" correct=``incorrect"{\textgreater}Error Free{\textless}/response{\textgreater}\\	
+	\phantom{3em}{\textless}/question{\textgreater}\\
+	{\textless}/quiz{\textgreater}
+	
+	\subsection{{\textless}quiz{\textgreater}}
+	The {\textless}quiz{\textgreater} element is the outer wrapper for the XML document. 
+	\subsubsection{Children}
+	The {\textless}quiz{\textgreater} element has the following children:
+	\begin{itemize}
+		\item \textbf{{\textless}question{\textgreater}} - 	The outer wrapper for a single quiz question. The {\textless}quiz{\textgreater} element is required to have at least one {\textless}question{\textgreater} child element but there is no upper limit imposed.
+	\end{itemize}
+	\subsubsection{Attributes}
+	The {\textless}quiz{\textgreater} element has the following attributes:
+	\begin{itemize}
+		\item \textbf{quiznum} - An integer representing the label of this quiz. quiznum is used to populate the Lecture \# heading and to build file names. This could easily be changed to accommodate strings.
+	\end{itemize}
+
+	
+	\subsection{{\textless}question{\textgreater}}
+	{\textless}question{\textgreater} elements are children of the {\textless}quiz{\textgreater} element and are the outer wrapper for a single quiz question. 
+	\subsubsection{Children}
+	A {\textless}quiz{\textgreater} has the following children:
+	\begin{itemize}
+		 \item \textbf{\textless{text}\textgreater} - The outer wrapper for a block of text. The {\textless}{question}{\textgreater} element must have at least one {\textless}text{\textgreater} child but there is no upper limit imposed.
+		 \item \textbf{\textless{response}\textgreater} - The outer wrapper for a response. The {\textless}{question}{\textgreater} must have at least one {\textless}response{\textgreater} child but there is no upper limit imposed.
+	\end{itemize}
+	\subsubsection{Attributes}
+	The {\textless}{question}{\textgreater} element does not have any attributes. In a future update an order attribute may be added to allow optional ordering to the questions.
+	
+	\subsection{{\textless}text{\textgreater}}
+	{\textless}text{\textgreater} elements are children of {\textless}question{\textgreater} elements and are the outer wrapper for a block of text. 
+	\subsubsection{Children}
+	A {\textless}text{\textgreater} element has the following children.
+	\begin{itemize}
+		\item \textbf{{\textless}code{\textgreater}} - The outer wrapper for a line of code. A {\textless}text{\textgreater} element may optionally have at least one {\textless}code{\textgreater} child but there is no upper limit imposed. If a {\textless}code{\textgreater} element is included then the texttype attribute \textbf{must} be set to \underline{code} and startline must be specified in order for code to be formatted properly.
+	\end{itemize}
+	\subsubsection{Attributes}
+	A {\textless}text{\textgreater} element has the following attributes:
+	\begin{itemize}
+		\item \textbf{texttype} - texttype determines the style that the {\textless}text{\textgreater} will be displayed in. texttype is a required attribute and it may be one of the following: text, formula, or code. An explanation of texttypes is included in this document.
+		\item \textbf{startline} - Indicates the starting value for the line number counter. If texttype is code startline is required, in all other cases it is optional. startline should be set to one number less than the first line number you wish to see, e.g. if you want the first line number displayed to be 1 then startline should be set to 0. This will be fixed in a future update. 
+	\end{itemize}
+
+	\subsection{{\textless}response{\textgreater}}
+	{\textless}response{\textgreater} elements are children of {\textless}question{\textgreater} elements and are the outer wrapper for a response to a question. {\textless}response{\textgreater} and {\textless}text{\textgreater} elements are basically the same thing with the exception of an additional correct attribute on the {\textless}response{\textgreater}.
+	\subsubsection{Children}
+	A {\textless}response{\textgreater} element has the following children.
+	\begin{itemize}
+		\item \textbf{{\textless}code{\textgreater}} - The outer wrapper for a line of code. A {\textless}text{\textgreater} element may optionally have at least one {\textless}code{\textgreater} child but there is no upper limit imposed. If a {\textless}code{\textgreater} element is included then the texttype attribute \textbf{must} be set to \underline{code} and startline must be specified in order for code to be formatted properly.
+	\end{itemize}
+	\subsubsection{Attributes}
+	A {\textless}response{\textgreater} element has the following attributes:
+	\begin{itemize}
+		\item \textbf{texttype} - texttype determines the style that the {\textless}text{\textgreater} will be displayed in. texttype is a required attribute and it may be one of the following: text, formula, or code. An explanation of texttypes is included in this document.
+		\item \textbf{correct} - A flag for whether or not a response is correct. correct is a required attribure and it may be one of the following: correct, incorrect. In a future update this will be changed to boolean values. 
+		\item \textbf{startline} - Indicates the starting value for the line number counter. If texttype is code startline is required, in all other cases it is optional. startline should be set to one number less than the first line number you wish to see, e.g. if you want the first line number displayed to be 1 then startline should be set to 0. This will be fixed in a future update. 
+	\end{itemize}
+	
+	\subsection{{\textless}code{\textgreater}}
+	{\textless}code{\textgreater} elements are children of {\textless}text{\textgreater} or {\textless}response{\textgreater} elements are the outer wrapper to a single line of code.
+	\subsubsection{Children}
+	The {\textless}code{\textgreater} element does not have any children.
+	
+	\subsubsection{Attributes}
+	The {\textless}code{\textgreater} element does not have any attributes.
+	
+	\subsection{texttype}
+	The texttype attribute is used to determine the final styling of a {\textless}text{\textgreater} or {\textless}response{\textgreater} element. texttype must be set to one of the following:
+	\begin{itemize}
+		\item \textbf{text} - Text is displayed on a gray background with a white font. White space and line breaks are not preserved.
+		\item \textbf{formula} - Text is displayed on a white background with black text. LaTex code is support by the quiz generator but it is not rendered automatically. An explanation of how to render LaTex is included in this document.
+		\item \textbf{code} - Text is displayed on a black background with a light green font. Each line of code is prepended with a light gray line number and a $\vert$. If texttype is set to code the startline attribute must be set and each line of code must be wrapped in a {\textless}code{\textgreater} element.
+	\end{itemize}
+	
+	\subsection{Rendering LaTex}
+	Latex is processed in the final product by the MathJax JavaScript library. LaTex can be included in the cdata of any text or response though it is not advisable to use it with code sections. LaTex can be rendered by using the following tags:
+	\begin{itemize}
+		\item \textbf{Inline} - Inline LaTex can be achieved by using \textbackslash( \dots \textbackslash)
+		\item \textbf{Display} - Displayed LaTex can be achieved by using \$\$\dots\$\$ or \textbackslash[\dots\textbackslash]
+	\end{itemize}
+	
+	Though LaTex may be rendered with any texttype it is not recommended to use it with the code texttype.
+		
+	\section{Future Improvements}
+	This XML schema is not meant to be the definitive version but it should support limited expansion. The names of elements and their attributes and their hierarchies cannot be safely changed without revision to the quiz generator but additional attributes and child elements can be added without disturbing the existing code base.
+
+	Due to the difficulty of formatting quizzes in XML I believe that an interface 	should be created to enter the quiz. In this manner a user would be able to write questions quickly in plain English and/or code. 
+	
+	In addition to a user interface for entering quiz questions I would like to implement XML validation. Add a step of validating the XML before sending it to the quiz generator.
+\end{document}

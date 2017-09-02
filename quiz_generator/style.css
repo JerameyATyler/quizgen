@@ -1,0 +1,99 @@
+body {
+    margin: 10px 0px 10px 0px;
+    padding: 10px;
+}
+
+div {
+    padding: 10px;
+    margin: auto;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+}
+
+pre {
+    display: block;
+    font-family: monospace;
+    white-space: pre;
+    margin: 1em 0;
+    counter-reset: line;
+}
+
+code {
+    counter-increment: line;
+}
+
+div#inner {
+    background-color: #bd0000;
+    overflow: hidden;
+}
+
+div#question {
+    background-color: #555555;
+}
+
+div#responses {
+    background-color: #555555;
+}
+
+div#leftarrow {
+    float:left;
+}
+
+div#rightarrow{
+    float:right;
+}
+
+div.button {
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+li.incorrect{
+    opacity: 0.35;
+}
+
+li.correct{
+    opacity: 1.0;
+}
+
+.button:hover{
+    background-color: grey;
+}
+
+.visnone {
+    display: none;
+}
+
+.code {
+    background-color: black;
+    color: lightgreen;
+    font-family: monospace;
+}
+
+.text {
+    background-color: #555555;
+    color: white;
+}
+
+.formula, .formula > div{
+    background-color: white;
+    color: black;
+}
+
+.formula > div{
+    padding: 10px 0px;
+}
+
+code:before {
+    content: counter(line);
+    display: inline-block;
+    border-right: 1px solid #888;
+    padding: 0 .5em;
+    margin-right: .5em;
+    color: #888;
+    -webkit-user-select: none;
+}

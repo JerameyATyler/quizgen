@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<quiz quiznum="1">
+    <question>
+        <text texttype="text">Given the following problem and implementation which types of errors are present:</text>
+        <text texttype="formula">Solve for c: $$a^2+b^2=c^2$$</text>
+        <text texttype="code" startline="0">
+            <code>import math</code>
+            <code>c == math.sqrt(pow(a, a) + b*b)</code>
+        </text>
+        <response texttype="text" correct="incorrect">Semantic</response>
+        <response texttype="text" correct="incorrect">Syntactic</response>
+        <response texttype="text" correct="correct">Semantic and Syntactic</response>
+        <response texttype="text" correct="incorrect">Error Free</response>
+    </question>
+</quiz>
